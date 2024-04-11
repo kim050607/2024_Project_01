@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ExRay : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class ExRay : MonoBehaviour
                 {
                     Destroy(hit.collider.gameObject);                          //해당 오브젝트를 파괴한다.
                     Point += 1;                                                //파괴시 포인트 +1
+                    if (Point >= 10) DochangeScene();                          //포인트가 10점을 넘기면 Scene을 전환한다.
                 }
             }
             else
@@ -33,5 +35,10 @@ public class ExRay : MonoBehaviour
 
             UIText.text = Point.ToString();                                    //UI에 표시
         }
+    }
+
+    void DochangeScene()                                                        //씬 전환을 위한 함수 선언
+    {
+        SceneManager.LoadScene("ResultScene");                                  //ResultScene 으로 전환 된다.
     }
 }
