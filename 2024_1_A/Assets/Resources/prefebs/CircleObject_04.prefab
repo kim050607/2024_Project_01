@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 509452453091255193}
   - component: {fileID: 4865095523638951215}
   - component: {fileID: 4345032986892282880}
+  - component: {fileID: -2530800666543133891}
   m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
+  m_Name: CircleObject_04
+  m_TagString: Fruit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 4491748175278379268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 8, z: 0}
-  m_LocalScale: {x: 0.9791982, y: 0.9243958, z: 0.9243958}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,7 +111,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7ccc026100c840748b37839fb0723c20, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 99af7d77d50c5284bb08ac3f2d147a9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -148,3 +149,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2530800666543133891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4491748175278379268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf5cbeb7c625bc4fa098377d655a86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDrag: 0
+  isUsed: 0
+  index: 4

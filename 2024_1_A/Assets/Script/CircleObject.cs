@@ -7,7 +7,15 @@ public class CircleObject : MonoBehaviour
     public bool isDrag;                  //마우스 Drag 판단
     public bool isUsed;                  //사용 완료 체크
     Rigidbody2D rigidbody2D;             //2D 강제 선언
-    
+
+    public int index;                    //과일 번호 설정            
+
+    void Awake()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();         //오브젝트의 강체에 접근
+        isUsed = false;                                    //시작할때 사용이 안되었다고 입력
+        rigidbody2D.simulated = false;                     //물리 행동이 처음에는 동작하지 않게 설정
+    }
     void Start()
     {
         isUsed = false;                                       //시작할때 사용이 안되었다고 입력
@@ -59,5 +67,39 @@ public class CircleObject : MonoBehaviour
             temp.gameObject.GetComponent<GamerManager>().GenObject();           //GameManager 의 GenObject 함수를 호출
         }
     }
-        
+
+    public void Used()
+    {
+        isDrag = false;                                                        //드래그 중이다.(false)
+        isUsed = true;                                                         //사용 완료 되었다.(true)
+        rigidbody2D.simulated = true;                                          //물리 시물레이션 사용함 (true)
+    }
+
+    public void OnCollisionEnter2D(Collision2D Collision)                      //해당 오브젝트가 충돌 했을 때  OnCollision2D                                                                               
+    {
+        if (Collision.gameObject.tag == "Fruit")
+        {
+            CircleObject temp = Collision.gameObject.GetComponent<CircleObject>();      //충한 물체에서 같은 Class를 받아온다.
+
+            if (temp.index == index)                                             //충돌 index와 내 index 가 같다.  
+            {
+
+                if (gameObject.GetInstanceID() > Collision.gameObject.GetInstanceID())  // 2개를 합쳐서 1개를 만들기 위해 ID 검사 후 큰것만
+                {
+                    //GameManger에서 합친 오브젝트를 생성
+                    GameObject tempGameManger = GameObject.FindWithTag("GameManger");          //Scene에서 GameManger Tag 가지고 있는 오브젝트를 가져온다.
+                   if (tempGameManger != null)                                                //해당 오브젝트가 있을 경우
+                   {
+                        tempGameManger.gameObject.GetComponent<GamerManager>().MergeObject(index, gameObject.transform.position);
+                   }
+                    
+                   Destroy(temp.gameObject);                                          //충돌한 물체 제거
+                   Destroy(gameObject);                                               //자신도 제거
+                }
+
+            }
+
+        }
+
+    }
 }
