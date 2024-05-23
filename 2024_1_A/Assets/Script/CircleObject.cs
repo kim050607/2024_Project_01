@@ -8,20 +8,28 @@ public class CircleObject : MonoBehaviour
     public bool isUsed;                  //사용 완료 체크
     Rigidbody2D rigidbody2D;             //2D 강제 선언
 
-    public int index;                    //과일 번호 설정            
+    public int index;                    //과일 번호 설정
+
+    public float EndTime = 0.0f;              //종료 선 시간 체크 변수(float)
+    public SpriteRenderer spriteRenderer;     //종료시 스파라이트 색을 변환 시키기 위해서 접근 선언
+
+    public GamerManager gamerManager;         //게임 매니저 참조용
+
 
     void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();         //오브젝트의 강체에 접근
         isUsed = false;                                    //시작할때 사용이 안되었다고 입력
         rigidbody2D.simulated = false;                     //물리 행동이 처음에는 동작하지 않게 설정
+
+        spriteRenderer = GetComponent<SpriteRenderer>();   //오브젝트에 붙어있는 컴포넌트에 접근
     }
+
     void Start()
     {
-        isUsed = false;                                       //시작할때 사용이 안되었다고 입력
-        rigidbody2D = GetComponent<Rigidbody2D>();            //오브젝트의 강체에 접근
-        rigidbody2D.simulated = false;                        //물리 행동이 처음에는 동작하지 않게 설정
+        gamerManager = GameObject.FindWithTag("GameManger").GetComponent<GamerManager>();          //게임 매니저를 얻어온다.
     }
+     
 
     void Update()
     {
@@ -73,6 +81,32 @@ public class CircleObject : MonoBehaviour
         isDrag = false;                                                        //드래그 중이다.(false)
         isUsed = true;                                                         //사용 완료 되었다.(true)
         rigidbody2D.simulated = true;                                          //물리 시물레이션 사용함 (true)
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)                           //Trigger에 있을때
+    {
+       if(collision.tag == "Endline")                                           //충돌적인 물체의 Tag 가 Endline 일 경우
+       {  
+            EndTime += Time.deltaTime;                                           //프레임 시간 만큼 누적 시켜서 초를 카운트 한다.
+
+            if(EndTime > 1)                                                     // 1초 이상 일 경우
+            {
+                spriteRenderer.color = new Color(0.9f, 0.2f, 0.2f);              //빨강색 처리
+            }
+            if(EndTime >3)                                                      // 3초 이상 일 경우
+            {
+                Debug.Log("게임종료");                                         // 우선 게임종료 처리
+            } 
+       }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)                         //Trigger에서 나올때
+    {
+       if (collision.tag == "Endline")                                      //충돌적인 물체의 Tag가 Endline 일 경우
+        {
+            EndTime = 0.0f;
+            spriteRenderer.color = Color.white;                              //기본색상으로 변경
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D Collision)                      //해당 오브젝트가 충돌 했을 때  OnCollision2D                                                                               
